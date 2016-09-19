@@ -6,30 +6,34 @@ function openBlock (id) {
         blocks[y].style.display = "none";
     }
     block.style.display = "block";
-    $('#menu li').removeClass('active');
+    
+    var listElements = document.getElementById("menu").getElementsByTagName("li");
 
-    $('#' + 'menu_item_' + id).parent().addClass('active');
+    for (var i=0; i < listElements.length; i++) {
+        listElements[i].className = "";
+    }
 
-    // TODO: remove the "active" class from all of the li elements inside the menu
-    // TODO: add the "active" class to the li element that contains the link that was clicked
+    document.getElementById('menu_item_' + id).parentElement.className += "active";
 
 }
 
-$('#menu a').click(function(e){
-    e.preventDefault();
-    openBlock(this.id.replace('menu_item_', ''));
-});
+var linkElements = document.getElementById("menu").getElementsByTagName("a");
 
-$('#menu a').hover(function(){
-    $(this).addClass('hover');
-}, function(){
-    $(this).removeClass('hover');
-});
+for (var i=0; i < linkElements.length; i++) {
+    linkElements[i].addEventListener("click", function(e){
+        e.preventDefault();
+        openBlock(this.id.replace('menu_item_', ''));
+    });
+    
+    linkElements[i].addEventListener("onmouseover", function(e){
+        this.className += "hover";
+    });
+
+    linkElements[i].addEventListener("onmouseout", function(e){
+        this.className = "";
+    });
+
+}
 
 $('#menu a').tooltip({delay: 1000});
-
-// TODO: add the "hover" class to the menu items when you hover over them
-
-
-// TODO: set up the tooltip plugin on all of the links in the menu
 
